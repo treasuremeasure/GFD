@@ -23,10 +23,12 @@ function checkRestaurantStatus() {
         // Restaurant is open
         menuSection.classList.remove('hidden');
         closedMessage.classList.add('hidden');
+        document.body.classList.remove('no-scroll'); // Allow scrolling
     } else {
         // Restaurant is closed
         menuSection.classList.add('hidden');
         closedMessage.classList.remove('hidden');
+        document.body.classList.add('no-scroll'); // Disable scrolling
     }
 }
 

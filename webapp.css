@@ -5,6 +5,11 @@ body {
     margin: 0;
 }
 
+/* Disable scrolling class */
+.no-scroll {
+    overflow: hidden;
+}
+
 .hidden {
     display: none;
 }

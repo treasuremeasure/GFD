@@ -11,7 +11,7 @@ def send_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     
     # Web App configuration
-    web_app_url = 'https://treasuremeasure.github.io/'  # Replace with your web app URL
+    web_app_url = 'https://treasuremeasure.github.io/GFD/'  # Replace with your web app URL
     web_app_button = types.WebAppInfo(web_app_url)
     
     # Adding the WebApp button to the keyboard
