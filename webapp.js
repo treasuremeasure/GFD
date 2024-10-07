@@ -62,3 +62,4 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementsByClassName('tab-button')[0].click();
     }
 });
+
