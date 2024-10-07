@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Food Delivery</title>
+    <link rel="stylesheet" href="webapp.css">
+</head>
+<body>
+    <!-- Closed Message Section -->
+    <div id="closed-message" class="hidden">
+        <h1 class="closed-title">Кафе Закрыто</h1>
+        <p class="closed-hours">10:00 - 22:00</p>
+    </div>
+
+    <!-- Menu Section -->
+    <div id="menu-section">
+        <!-- Navbar with Tabs -->
+        <div class="navbar">
+            <button class="tab-button active" onclick="openTab(event, 'home')">Главная</button>
+            <button class="tab-button" onclick="openTab(event, 'sandwiches')">Сэндвичи</button>
+            <button class="tab-button" onclick="openTab(event, 'mini_sandwiches')">Мини сэндвичи</button>
+            <button class="tab-button" onclick="openTab(event, 'burgers')">Бургеры</button>
+        </div>
+
+        <!-- Акция Section -->
+        <div id="home" class="tab-content active">
+            <h2 class="section-header">Акция</h2>
+
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('combo1.png');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Летний комбо</h3>
+                    <p class="product-description">свежий салат, сок добрый, мини сэндвич с ветчиной</p>
+                    <div class="price-section">
+                        <span class="old-price">450₽</span>
+                        <button class="add-button">+ 300₽</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="webapp.js"></script>
+</body>
+</html>
