@@ -5,6 +5,10 @@ body {
     margin: 0;
 }
 
+.hidden {
+    display: none;
+}
+
 .navbar {
     display: flex;
     background-color: #333;
@@ -74,13 +78,6 @@ body {
     justify-content: space-between;
 }
 
-.old-price {
-    color: red;
-    text-decoration: line-through;
-    font-size: 1.2em;
-    margin-right: 10px;
-}
-
 .add-button {
     background-color: #ffd600;
     color: #333;
@@ -93,4 +90,37 @@ body {
 
 .add-button:hover {
     background-color: #e0b800;
+}
+
+.quantity-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.minus-button, .plus-button {
+    background-color: #ffd600;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.quantity-value {
+    font-size: 1.2em;
+}
+
+.order-summary-button {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffd600;
+    color: #333;
+    padding: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.2em;
 }
