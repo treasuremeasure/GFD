@@ -89,5 +89,5 @@ function updateTotal(amount) {
     let currentTotal = parseInt(orderButton.getAttribute('data-total')) || 0;
     currentTotal += amount;
     orderButton.setAttribute('data-total', currentTotal);
-    orderButton.textContent = `Мой заказ: ${currentTotal} ₽`;
+    orderButton.querySelector('.order-summary-button').textContent = `Мой заказ: ${currentTotal} ₽`;
 }
