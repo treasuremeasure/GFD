@@ -31,7 +31,7 @@ function openTab(evt, tabName) {
 function updateOrder(button) {
     const productCard = button.closest('.product-card');
     let quantityDiv = productCard.querySelector('.quantity-section');
-    
+
     // If quantity section doesn't exist, create it
     if (!quantityDiv) {
         quantityDiv = document.createElement('div');
@@ -40,29 +40,30 @@ function updateOrder(button) {
         const minusButton = document.createElement('button');
         minusButton.textContent = "-";
         minusButton.classList.add('minus-button');
-        minusButton.addEventListener('click', () => updateQuantity(quantityDiv, -1));
-        
+        minusButton.addEventListener('click', () => updateQuantity(quantityDiv, -1, 160));
+
         const quantityValue = document.createElement('span');
         quantityValue.textContent = "1";
         quantityValue.classList.add('quantity-value');
-        
+
         const plusButton = document.createElement('button');
         plusButton.textContent = "+";
         plusButton.classList.add('plus-button');
-        plusButton.addEventListener('click', () => updateQuantity(quantityDiv, 1));
-        
+        plusButton.addEventListener('click', () => updateQuantity(quantityDiv, 1, 160));
+
         quantityDiv.appendChild(minusButton);
         quantityDiv.appendChild(quantityValue);
         quantityDiv.appendChild(plusButton);
-        
+
         // Replace the add button with the quantity section
         button.replaceWith(quantityDiv);
-        
+
         showOrderButton();
+        updateTotal(160); // Initial amount for one item added
     }
 }
 
-function updateQuantity(quantityDiv, change) {
+function updateQuantity(quantityDiv, change, price) {
     const quantityValue = quantityDiv.querySelector('.quantity-value');
     let currentQuantity = parseInt(quantityValue.textContent);
     currentQuantity += change;
@@ -72,10 +73,8 @@ function updateQuantity(quantityDiv, change) {
 
     quantityValue.textContent = currentQuantity;
 
-    // Hide order button if quantity becomes zero
-    if (currentQuantity === 0) {
-        hideOrderButton();
-    }
+    // Update the total price
+    updateTotal(change * price);
 }
 
 function showOrderButton() {
@@ -85,9 +84,10 @@ function showOrderButton() {
     }
 }
 
-function hideOrderButton() {
+function updateTotal(amount) {
     const orderButton = document.getElementById('order-button');
-    if (!orderButton.classList.contains('hidden')) {
-        orderButton.classList.add('hidden');
-    }
+    let currentTotal = parseInt(orderButton.getAttribute('data-total')) || 0;
+    currentTotal += amount;
+    orderButton.setAttribute('data-total', currentTotal);
+    orderButton.textContent = `Мой заказ: ${currentTotal} ₽`;
 }
