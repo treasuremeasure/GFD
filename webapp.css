@@ -5,39 +5,6 @@ body {
     margin: 0;
 }
 
-/* Disable scrolling class */
-.no-scroll {
-    overflow: hidden;
-}
-
-.hidden {
-    display: none;
-}
-
-#closed-message {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
-    background-color: #222;
-    color: #ffd600;
-}
-
-.closed-title {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.closed-hours {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #ccc;
-}
-
-/* Existing styles for the menu section */
 .navbar {
     display: flex;
     background-color: #333;
