@@ -7,12 +7,6 @@
     <link rel="stylesheet" href="webapp.css">
 </head>
 <body>
-    <!-- Closed Message Section -->
-    <div id="closed-message" class="hidden">
-        <h1 class="closed-title">Кафе Закрыто</h1>
-        <p class="closed-hours">10:00 - 22:00</p>
-    </div>
-
     <!-- Menu Section -->
     <div id="menu-section">
         <!-- Navbar with Tabs -->
@@ -23,7 +17,7 @@
             <button class="tab-button" onclick="openTab(event, 'burgers')">Бургеры</button>
         </div>
 
-        <!-- Акция Section -->
+        <!-- Home Section -->
         <div id="home" class="tab-content active">
             <h2 class="section-header">Акция</h2>
 
@@ -31,12 +25,26 @@
                 <div class="product-image" style="background-image: url('https://i.imgur.com/kWSZvSG.jpeg');"></div>
                 <div class="product-info">
                     <h3 class="product-title">Крутой Джо</h3>
-                    <p class="product-description">стрипсы, фирменный соус, кетчуп, сырный соус, стрипсы, помидор, огурец</p>
+                    <p class="product-description">стрипсы, фирменный соус, кетчуп, сырный соус, помидор, огурец</p>
                     <div class="price-section">
                         <button class="add-button">+ 160₽</button>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Other tab contents (optional sections) -->
+        <div id="sandwiches" class="tab-content">
+            <h2 class="section-header">Сэндвичи</h2>
+            <!-- Add Sandwich Items Here -->
+        </div>
+        <div id="mini_sandwiches" class="tab-content">
+            <h2 class="section-header">Мини сэндвичи</h2>
+            <!-- Add Mini Sandwich Items Here -->
+        </div>
+        <div id="burgers" class="tab-content">
+            <h2 class="section-header">Бургеры</h2>
+            <!-- Add Burgers Items Here -->
         </div>
     </div>
 
