@@ -48,22 +48,33 @@
 
         <!-- Order Button -->
         <div id="order-button" class="hidden" data-total="0">
-            <button class="order-summary-button">Мой заказ: 0 ₽</button>
+            <button class="order-summary-button" onclick="showOrderDetails()">Мой заказ: 0 ₽</button>
         </div>
 
-        <!-- Other tab contents (optional sections) -->
-        <div id="sandwiches" class="tab-content">
-            <h2 class="section-header">Сэндвичи</h2>
-            <!-- Add Sandwich Items Here -->
+        <!-- Order Details Section -->
+        <div id="order-details" class="hidden">
+            <div class="order-details-content">
+                <h2>Ваш заказ</h2>
+                <div id="order-items"></div>
+                <div class="order-summary">
+                    <p>Ваш номер телефона:</p>
+                    <div class="phone-number">
+                        <span id="phone-number">+7 (915) 124-04-00</span>
+                        <button id="edit-phone-button" class="edit-button">Изменить</button>
+                    </div>
+                    <p>Способ оплаты:</p>
+                    <label><input type="checkbox" name="payment" value="cash"> Наличными</label>
+                    <label><input type="checkbox" name="payment" value="transfer"> Переводом</label>
+                    <p>Способ получения заказа:</p>
+                    <label><input type="checkbox" name="pickup" value="self"> Самовывоз</label>
+                    <label><input type="checkbox" name="pickup" value="delivery"> Доставка</label>
+                    <p>Комментарий к заказу:</p>
+                    <textarea id="order-comment" placeholder="Укажите дополнительные пожелания или особенности вашего заказа здесь..."></textarea>
+                </div>
+                <button id="place-order-button" class="order-summary-button">Заказать: 0 ₽</button>
+            </div>
         </div>
-        <div id="mini_sandwiches" class="tab-content">
-            <h2 class="section-header">Мини сэндвичи</h2>
-            <!-- Add Mini Sandwich Items Here -->
-        </div>
-        <div id="burgers" class="tab-content">
-            <h2 class="section-header">Бургеры</h2>
-            <!-- Add Burgers Items Here -->
-        </div>
+
     </div>
 
     <script src="webapp.js"></script>
