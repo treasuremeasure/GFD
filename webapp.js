@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Automatically click the first tab button to open the default tab
     document.getElementsByClassName('tab-button')[0].click();
 
     // Get all add buttons and add event listeners to them
@@ -134,5 +135,11 @@ function showOrderSummary() {
     // Set final total in the summary button
     const finalTotal = orderButton.getAttribute('data-total');
     document.getElementById('final-total').textContent = finalTotal;
+
+    // Fix to ensure that the button for placing the order shows the correct amount
+    const orderSummaryButton = document.querySelector('.order-summary-button-final');
+    if (orderSummaryButton) {
+        orderSummaryButton.textContent = `Заказать: ${finalTotal} ₽`;
+    }
 }
 
