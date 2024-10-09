@@ -48,7 +48,30 @@
 
         <!-- Order Button -->
         <div id="order-button" class="hidden" data-total="0">
-            <button class="order-summary-button">Мой заказ: 0 ₽</button>
+            <button class="order-summary-button" onclick="showOrderSummary()">Мой заказ: 0 ₽</button>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div id="order-summary" class="hidden">
+            <h2 class="section-header">Ваш заказ</h2>
+            <div id="order-items"></div>
+            
+            <label for="phone-number">Введите номер телефона:</label>
+            <input type="text" id="phone-number" placeholder="+7">
+            <button id="confirm-phone">Подтвердить</button>
+
+            <h3>Способ оплаты:</h3>
+            <label><input type="checkbox" id="cash" name="payment-method"> Наличными</label>
+            <label><input type="checkbox" id="transfer" name="payment-method"> Переводом</label>
+
+            <h3>Способ получения заказа:</h3>
+            <label><input type="checkbox" id="pickup" name="order-method"> Самовывоз</label>
+            <label><input type="checkbox" id="delivery" name="order-method"> Доставка</label>
+
+            <h3>Комментарий к заказу:</h3>
+            <textarea id="order-comment" placeholder="Укажите дополнительные пожелания или особенности вашего заказа здесь..."></textarea>
+
+            <button class="order-summary-button">Заказать: <span id="final-total">0</span> ₽</button>
         </div>
 
         <!-- Other tab contents (optional sections) -->

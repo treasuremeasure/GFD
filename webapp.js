@@ -91,3 +91,33 @@ function updateTotal(amount) {
     orderButton.setAttribute('data-total', currentTotal);
     orderButton.querySelector('.order-summary-button').textContent = `Мой заказ: ${currentTotal} ₽`;
 }
+
+function showOrderSummary() {
+    const orderSummary = document.getElementById('order-summary');
+    const menuSection = document.getElementById('menu-section');
+    const orderButton = document.getElementById('order-button');
+
+    // Hide main menu and show order summary
+    menuSection.classList.add('hidden');
+    orderButton.classList.add('hidden');
+    orderSummary.classList.remove('hidden');
+
+    // Populate order summary details
+    const orderItemsDiv = document.getElementById('order-items');
+    orderItemsDiv.innerHTML = '';
+
+    // Iterate through selected products to add to summary
+    const quantitySections = document.querySelectorAll('.quantity-section');
+    quantitySections.forEach(section => {
+        const productTitle = section.closest('.product-card').querySelector('.product-title').textContent;
+        const quantityValue = section.querySelector('.quantity-value').textContent;
+
+        const orderItem = document.createElement('p');
+        orderItem.textContent = `${productTitle}, Кол-во: ${quantityValue}`;
+        orderItemsDiv.appendChild(orderItem);
+    });
+
+    // Set final total in the summary button
+    const finalTotal = orderButton.getAttribute('data-total');
+    document.getElementById('final-total').textContent = finalTotal;
+}
