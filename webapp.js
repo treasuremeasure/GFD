@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
             updateOrder(button);
         });
     });
+
+    // Add event listener to the "Мой заказ" button
+    const orderButton = document.querySelector('.order-summary-button');
+    if (orderButton) {
+        orderButton.addEventListener('click', showOrderSummary);
+    }
 });
 
 function openTab(evt, tabName) {
@@ -129,3 +135,4 @@ function showOrderSummary() {
     const finalTotal = orderButton.getAttribute('data-total');
     document.getElementById('final-total').textContent = finalTotal;
 }
+
