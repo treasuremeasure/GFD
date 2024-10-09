@@ -93,6 +93,8 @@ function updateTotal(amount) {
 }
 
 function showOrderSummary() {
+    console.log("Order summary button clicked");
+
     const orderSummary = document.getElementById('order-summary');
     const menuSection = document.getElementById('menu-section');
     const orderButton = document.getElementById('order-button');
@@ -106,8 +108,14 @@ function showOrderSummary() {
     const orderItemsDiv = document.getElementById('order-items');
     orderItemsDiv.innerHTML = '';
 
-    // Iterate through selected products to add to summary
     const quantitySections = document.querySelectorAll('.quantity-section');
+    if (quantitySections.length === 0) {
+        console.error("No items found in the order");
+        orderItemsDiv.innerHTML = '<p>Вы еще не добавили товары в заказ.</p>';
+        return;
+    }
+
+    // Iterate through selected products to add to summary
     quantitySections.forEach(section => {
         const productTitle = section.closest('.product-card').querySelector('.product-title').textContent;
         const quantityValue = section.querySelector('.quantity-value').textContent;
