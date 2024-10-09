@@ -8,10 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
             updateOrder(button);
         });
     });
-
-    // Add event listener for the "Мой заказ" button
-    const orderButton = document.querySelector('.order-summary-button');
-    orderButton.addEventListener('click', showOrderSummary);
 });
 
 function openTab(evt, tabName) {
@@ -40,7 +36,7 @@ function updateOrder(button) {
     if (!quantityDiv) {
         quantityDiv = document.createElement('div');
         quantityDiv.classList.add('quantity-section');
-
+        
         const minusButton = document.createElement('button');
         minusButton.textContent = "-";
         minusButton.classList.add('minus-button');
@@ -97,34 +93,31 @@ function updateTotal(amount) {
 }
 
 function showOrderSummary() {
-    // Clear current content and show order summary
+    const orderSummary = document.getElementById('order-summary');
     const menuSection = document.getElementById('menu-section');
-    menuSection.innerHTML = `
-        <div id="order-summary">
-            <div id="order-items">
-                <h3>Ваш заказ:</h3>
-                <!-- Add logic here to list items and quantities -->
-            </div>
-            <label>Введите номер телефона:</label>
-            <input type="text" id="phone-number" placeholder="+7">
-            <button id="confirm-phone">Подтвердить</button>
+    const orderButton = document.getElementById('order-button');
 
-            <h4>Способ оплаты:</h4>
-            <input type="checkbox" id="payment-cash" name="payment" value="cash">
-            <label for="payment-cash">Наличными</label><br>
-            <input type="checkbox" id="payment-transfer" name="payment" value="transfer">
-            <label for="payment-transfer">Переводом</label><br>
+    // Hide main menu and show order summary
+    menuSection.classList.add('hidden');
+    orderButton.classList.add('hidden');
+    orderSummary.classList.remove('hidden');
 
-            <h4>Способ получения заказа:</h4>
-            <input type="checkbox" id="pickup" name="delivery" value="pickup">
-            <label for="pickup">Самовывоз</label><br>
-            <input type="checkbox" id="delivery" name="delivery" value="delivery">
-            <label for="delivery">Доставка</label><br>
+    // Populate order summary details
+    const orderItemsDiv = document.getElementById('order-items');
+    orderItemsDiv.innerHTML = '';
 
-            <label>Комментарий к заказу:</label>
-            <textarea placeholder="Укажите дополнительные пожелания или особенности вашего заказа здесь..."></textarea>
+    // Iterate through selected products to add to summary
+    const quantitySections = document.querySelectorAll('.quantity-section');
+    quantitySections.forEach(section => {
+        const productTitle = section.closest('.product-card').querySelector('.product-title').textContent;
+        const quantityValue = section.querySelector('.quantity-value').textContent;
 
-            <button class="order-summary-button-final">Заказать: ${document.getElementById('order-button').getAttribute('data-total')} ₽</button>
-        </div>
-    `;
+        const orderItem = document.createElement('p');
+        orderItem.textContent = `${productTitle}, Кол-во: ${quantityValue}`;
+        orderItemsDiv.appendChild(orderItem);
+    });
+
+    // Set final total in the summary button
+    const finalTotal = orderButton.getAttribute('data-total');
+    document.getElementById('final-total').textContent = finalTotal;
 }
