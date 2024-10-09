@@ -32,10 +32,11 @@ function updateOrder(button) {
     const productCard = button.closest('.product-card');
     let quantityDiv = productCard.querySelector('.quantity-section');
 
+    // If quantity section doesn't exist, create it
     if (!quantityDiv) {
         quantityDiv = document.createElement('div');
         quantityDiv.classList.add('quantity-section');
-
+        
         const minusButton = document.createElement('button');
         minusButton.textContent = "-";
         minusButton.classList.add('minus-button');
@@ -54,10 +55,11 @@ function updateOrder(button) {
         quantityDiv.appendChild(quantityValue);
         quantityDiv.appendChild(plusButton);
 
+        // Replace the add button with the quantity section
         button.replaceWith(quantityDiv);
 
         showOrderButton();
-        updateTotal(160);
+        updateTotal(160); // Initial amount for one item added
     }
 }
 
@@ -66,10 +68,12 @@ function updateQuantity(quantityDiv, change, price) {
     let currentQuantity = parseInt(quantityValue.textContent);
     currentQuantity += change;
 
+    // Ensure the quantity is not less than 1
     if (currentQuantity < 1) return;
 
     quantityValue.textContent = currentQuantity;
 
+    // Update the total price
     updateTotal(change * price);
 }
 
@@ -86,16 +90,4 @@ function updateTotal(amount) {
     currentTotal += amount;
     orderButton.setAttribute('data-total', currentTotal);
     orderButton.querySelector('.order-summary-button').textContent = `Мой заказ: ${currentTotal} ₽`;
-}
-
-function showOrderDetails() {
-    const orderDetails = document.getElementById('order-details');
-    const menuSection = document.getElementById('menu-section');
-
-    menuSection.classList.add('hidden');
-    orderDetails.classList.remove('hidden');
-
-    // Update price in order details
-    const totalPrice = document.getElementById('order-button').getAttribute('data-total');
-    document.getElementById('place-order-button').textContent = `Заказать: ${totalPrice} ₽`;
 }
