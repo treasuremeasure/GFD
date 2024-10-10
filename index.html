@@ -7,6 +7,26 @@
     <link rel="stylesheet" href="webapp.css">
 </head>
 <body>
-   "хихихихипахах"
+  <div id="order-summary" >
+            <h2 class="section-header">Ваш заказ</h2>
+            <div id="order-items"></div>
+            
+            <label for="phone-number">Введите номер телефона:</label>
+            <input type="text" id="phone-number" placeholder="+7">
+            <button id="confirm-phone">Подтвердить</button>
+
+            <h3>Способ оплаты:</h3>
+            <label><input type="checkbox" id="cash" name="payment-method"> Наличными</label>
+            <label><input type="checkbox" id="transfer" name="payment-method"> Переводом</label>
+
+            <h3>Способ получения заказа:</h3>
+            <label><input type="checkbox" id="pickup" name="order-method"> Самовывоз</label>
+            <label><input type="checkbox" id="delivery" name="order-method"> Доставка</label>
+
+            <h3>Комментарий к заказу:</h3>
+            <textarea id="order-comment" placeholder="Укажите дополнительные пожелания или особенности вашего заказа здесь..."></textarea>
+
+            <button class="order-summary-button-final">Заказать: <span id="final-total">0</span> ₽</button>
+        </div>
 </body>
 </html>
