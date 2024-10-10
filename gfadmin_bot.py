@@ -1,39 +1,46 @@
+from flask import Flask, request, jsonify
 import telebot
 from telebot import types
 
+# Initialize Flask app
+app = Flask(__name__)
+
 # Replace with your own bot token from BotFather
-bot = telebot.TeleBot('8106083107:AAHW6FzfGqRrYzFFYRpzeiW6S3_I0DV7GVQ')
+bot = telebot.TeleBot('YOUR_ADMIN_BOT_TOKEN')
 
-# In-memory store for orders (could be replaced with a database in production)
-orders = {}
+# Orders endpoint to receive order details from User Bot
+@app.route('/new_order', methods=['POST'])
+def new_order():
+    try:
+        order_data = request.json
 
-# Handle receiving new orders from the customer bot (Simulated here)
-# In practice, this could be done by receiving data from another bot or an API
-@bot.message_handler(commands=['new_order'])
-def handle_new_order(message):
-    # Simulate receiving an order (in practice, this data would come from the customer bot)
-    order_id = len(orders) + 1
-    order_details = {
-        'cart': "1. Говяжий Club Sandwich x1 (340 ₽)\n+Фри\n+Соус Кетчуп",
-        'phone_number': "+7 (962) 743-02-71",
-        'payment_method': "Наличными",
-        'pickup_type': "Самовывоз",
-        'price': 340,
-        'telegram_id': message.chat.id
-    }
-    orders[order_id] = order_details
+        # Extract order data from the incoming request
+        cart = order_data.get('cart', '')
+        phone_number = order_data.get('phone_number', '')
+        payment_method = order_data.get('payment_method', '')
+        pickup_type = order_data.get('pickup_type', '')
+        price = order_data.get('price', '')
+        telegram_id = order_data.get('telegram_id', '')
 
-    # Send order details to admin group
-    order_message = (
-        f"\U0001F4E2 Новый заказ:\n\n"
-        f"Корзина:\n{order_details['cart']}\n\n"
-        f"Номер телефона: {order_details['phone_number']}\n"
-        f"Метод оплаты: {order_details['payment_method']}\n"
-        f"Тип получения: {order_details['pickup_type']}\n"
-        f"Цена: {order_details['price']} ₽\n"
-        f"Telegram id: \"{order_details['telegram_id']}\""
-    )
-    bot.send_message(message.chat.id, order_message)
+        # Send formatted message to the admin chat
+        order_message = (
+            f"\U0001F4E2 Новый заказ:\n\n"
+            f"Корзина:\n{cart}\n\n"
+            f"Номер телефона: {phone_number}\n"
+            f"Метод оплаты: {payment_method}\n"
+            f"Тип получения: {pickup_type}\n"
+            f"Цена: {price} ₽\n"
+            f"Telegram id: \"{telegram_id}\""
+        )
+        bot.send_message(chat_id='YOUR_ADMIN_CHAT_ID', text=order_message)
+
+        return jsonify({'message': 'Order received and sent to admin'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Start Flask app
+if __name__ == "__main__":
+    app.run(port=5000)
 
 # Handle admin response to an order
 @bot.message_handler(func=lambda message: True)

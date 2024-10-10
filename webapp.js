@@ -130,4 +130,49 @@ function showOrderSummary() {
     document.getElementById('final-total').textContent = finalTotal;
 }
 
+function sendOrderToAdmin() {
+    const orderItemsDiv = document.getElementById('order-items');
+    const phoneNumber = document.getElementById('phone-number').value;
+    const paymentMethod = document.getElementById('cash').checked ? "Наличными" : "Переводом";
+    const pickupType = document.getElementById('pickup').checked ? "Самовывоз" : "Доставка";
+    const comment = document.getElementById('order-comment').value;
+    const finalTotal = document.getElementById('final-total').textContent;
+
+    // Prepare order cart details
+    let cartDetails = '';
+    const orderItems = orderItemsDiv.querySelectorAll('p');
+    orderItems.forEach(item => {
+        cartDetails += item.textContent + '\n';
+    });
+
+    // Prepare order data
+    const orderData = {
+        cart: cartDetails.trim(),
+        phone_number: phoneNumber,
+        payment_method: paymentMethod,
+        pickup_type: pickupType,
+        price: finalTotal,
+        telegram_id: 'USER_TELEGRAM_ID'  // Replace with actual ID in production
+    };
+
+    // Send order data to the admin bot endpoint
+    fetch('http://localhost:5000/new_order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('Order sent successfully!');
+        } else {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error sending order:', error);
+    });
+}
 
