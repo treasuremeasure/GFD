@@ -1,10 +1,30 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     document.getElementsByClassName('tab-button')[0].click();
+
+    // Extract telegram_user_id from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const telegramUserId = urlParams.get('telegram_user_id');
+
+    // Log the extracted value to check if it's being captured correctly
+    if (!telegramUserId) {
+        console.error("Telegram User ID not found in the URL. Value extracted:", telegramUserId);
+        alert('Ошибка: Не удалось получить идентификатор пользователя Telegram.');
+    } else {
+        console.log("Telegram User ID extracted:", telegramUserId);
+    }
+
+    // Set the telegramUserId globally to be used in the sendOrderToAdmin function
+    window.telegramUserId = telegramUserId;
 
     // Get all add buttons and add event listeners to them
     const addButtons = document.querySelectorAll('.add-button');
     addButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
+            updateOrder(button);
+        });
+
+        // Adding touch support for mobile devices
+        button.addEventListener('touchend', function () {
             updateOrder(button);
         });
     });
@@ -13,6 +33,18 @@ document.addEventListener("DOMContentLoaded", function() {
     const orderButton = document.querySelector('.order-summary-button');
     if (orderButton) {
         orderButton.addEventListener('click', showOrderSummary);
+
+        // Adding touch support for mobile devices
+        orderButton.addEventListener('touchend', showOrderSummary);
+    }
+
+    // Adding event listener to the "Заказать" button for final order submission
+    const orderFinalButton = document.querySelector('.order-summary-button-final');
+    if (orderFinalButton) {
+        orderFinalButton.addEventListener('click', sendOrderToAdmin);
+
+        // Adding touch support for mobile devices
+        orderFinalButton.addEventListener('touchend', sendOrderToAdmin);
     }
 });
 
@@ -42,7 +74,7 @@ function updateOrder(button) {
     if (!quantityDiv) {
         quantityDiv = document.createElement('div');
         quantityDiv.classList.add('quantity-section');
-        
+
         const minusButton = document.createElement('button');
         minusButton.textContent = "-";
         minusButton.classList.add('minus-button');
@@ -100,14 +132,14 @@ function updateTotal(amount) {
 
 function showOrderSummary() {
     const orderSummary = document.getElementById('order-summary');
-    const homeSection = document.getElementById('home')
+    const homeSection = document.getElementById('home');
     const menuSection = document.getElementById('navbar');
     const orderButton = document.getElementById('order-button');
 
-    // // Hide main menu and show order summary
+    // Hide main menu and show order summary
     menuSection.classList.add('hidden');
     orderButton.classList.add('hidden');
-    homeSection.classList.add('hidden')
+    homeSection.classList.add('hidden');
     orderSummary.classList.remove('hidden');
 
     // Populate order summary details
@@ -130,7 +162,6 @@ function showOrderSummary() {
     document.getElementById('final-total').textContent = finalTotal;
 }
 
-// Modify sendOrderToAdmin to send correct data structure
 function sendOrderToAdmin() {
     const orderItemsDiv = document.getElementById('order-items');
     let cart = '';
@@ -141,9 +172,21 @@ function sendOrderToAdmin() {
 
     const phoneNumber = document.getElementById('phone-number').value;
     const paymentMethod = document.getElementById('cash').checked ? 'Наличными' : 'Переводом';
-    const pickupType = 'Самовывоз'; // Currently we assume only Самовывоз
+    const pickupType = document.getElementById('pickup').checked ? 'Самовывоз' : 'Доставка';
     const price = document.getElementById('final-total').textContent;
-    const telegramId = 'YOUR_USER_CHAT_ID';  // Replace with the user's Telegram ID
+
+    // Use the telegramUserId from the URL parameter
+    const telegramId = window.telegramUserId;
+
+    // Log the telegramUserId to ensure it's being used properly
+    console.log("Telegram ID being used for order:", telegramId);
+
+    // Check if telegramId is missing
+    if (!telegramId || telegramId === "YOUR_USER_CHAT_ID") {
+        console.error("Error: Telegram ID is invalid or missing.", telegramId);
+        alert('Ошибка: Не удалось получить идентификатор пользователя Telegram.');
+        return;
+    }
 
     const orderData = {
         cart: cart.trim(),
@@ -151,8 +194,11 @@ function sendOrderToAdmin() {
         payment_method: paymentMethod,
         pickup_type: pickupType,
         price: parseInt(price),
-        telegram_id: telegramId
+        telegram_id: telegramId // Use the correct telegramId from URL params
     };
+
+    // Log the full orderData before sending
+    console.log("Order Data to be sent to the backend:", orderData);
 
     fetch('http://127.0.0.1:5000/new_order', {
         method: 'POST',
@@ -164,31 +210,13 @@ function sendOrderToAdmin() {
         if (response.ok) {
             alert('Order sent successfully to the admin');
         } else {
-            alert('Failed to send order to admin');
+            response.json().then(data => {
+                console.error("Backend responded with an error:", data.error);
+                alert(`Failed to send order to admin: ${data.error}`);
+            });
         }
     }).catch(error => {
-        console.error('Error:', error);
+        console.error('An error occurred while sending the order:', error);
+        alert('An error occurred while sending the order');
     });
 }
-
-    // Send order data to the admin bot endpoint
-    fetch('http://localhost:5000/new_order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            alert('Order sent successfully!');
-        } else {
-            alert('Error: ' + data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error sending order:', error);
-    });
-
-
