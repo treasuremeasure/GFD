@@ -130,30 +130,46 @@ function showOrderSummary() {
     document.getElementById('final-total').textContent = finalTotal;
 }
 
+// Modify sendOrderToAdmin to send correct data structure
 function sendOrderToAdmin() {
     const orderItemsDiv = document.getElementById('order-items');
-    const phoneNumber = document.getElementById('phone-number').value;
-    const paymentMethod = document.getElementById('cash').checked ? "Наличными" : "Переводом";
-    const pickupType = document.getElementById('pickup').checked ? "Самовывоз" : "Доставка";
-    const comment = document.getElementById('order-comment').value;
-    const finalTotal = document.getElementById('final-total').textContent;
-
-    // Prepare order cart details
-    let cartDetails = '';
+    let cart = '';
     const orderItems = orderItemsDiv.querySelectorAll('p');
     orderItems.forEach(item => {
-        cartDetails += item.textContent + '\n';
+        cart += item.textContent + '\n';
     });
 
-    // Prepare order data
+    const phoneNumber = document.getElementById('phone-number').value;
+    const paymentMethod = document.getElementById('cash').checked ? 'Наличными' : 'Переводом';
+    const pickupType = 'Самовывоз'; // Currently we assume only Самовывоз
+    const price = document.getElementById('final-total').textContent;
+    const telegramId = 'YOUR_USER_CHAT_ID';  // Replace with the user's Telegram ID
+
     const orderData = {
-        cart: cartDetails.trim(),
+        cart: cart.trim(),
         phone_number: phoneNumber,
         payment_method: paymentMethod,
         pickup_type: pickupType,
-        price: finalTotal,
-        telegram_id: 'USER_TELEGRAM_ID'  // Replace with actual ID in production
+        price: parseInt(price),
+        telegram_id: telegramId
     };
+
+    fetch('http://127.0.0.1:5000/new_order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    }).then(response => {
+        if (response.ok) {
+            alert('Order sent successfully to the admin');
+        } else {
+            alert('Failed to send order to admin');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
 
     // Send order data to the admin bot endpoint
     fetch('http://localhost:5000/new_order', {
@@ -174,5 +190,5 @@ function sendOrderToAdmin() {
     .catch(error => {
         console.error('Error sending order:', error);
     });
-}
+
 
