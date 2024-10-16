@@ -22,29 +22,26 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener('click', function () {
             updateOrder(button);
         });
-
-        // Adding touch support for mobile devices
-        button.addEventListener('touchend', function () {
-            updateOrder(button);
-        });
     });
 
     // Add event listener to the "Мой заказ" button
     const orderButton = document.querySelector('.order-summary-button');
     if (orderButton) {
         orderButton.addEventListener('click', showOrderSummary);
-
-        // Adding touch support for mobile devices
-        orderButton.addEventListener('touchend', showOrderSummary);
     }
 
-    // Adding event listener to the "Заказать" button for final order submission
+    // Adding event listener to the "Заказать" button for final order submission with debouncing
     const orderFinalButton = document.querySelector('.order-summary-button-final');
     if (orderFinalButton) {
-        orderFinalButton.addEventListener('click', sendOrderToAdmin);
-
-        // Adding touch support for mobile devices
-        orderFinalButton.addEventListener('touchend', sendOrderToAdmin);
+        orderFinalButton.addEventListener('click', function () {
+            if (!orderFinalButton.disabled) {
+                sendOrderToAdmin();
+                orderFinalButton.disabled = true; // Disable button to prevent double submission
+                setTimeout(() => {
+                    orderFinalButton.disabled = false; // Re-enable button after a short delay
+                }, 3000); // Set delay to prevent rapid re-clicking (3 seconds)
+            }
+        });
     }
 });
 
