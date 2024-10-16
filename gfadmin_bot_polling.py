@@ -26,9 +26,20 @@ def handle_admin_response(message):
                 bot.send_message(message.chat.id, f"Пользователю было отправлено сообщение:\n{response_message}")
             elif len(response_parts) == 2:
                 prep_time, delivery_cost = response_parts
+                order_price_line = [line for line in original_message.split('\n') if "Цена" in line]
+                if not order_price_line:
+                    bot.send_message(message.chat.id, "Ошибка: Не удалось найти цену в сообщении.")
+                    return
+                
+                # Извлечение значения цены и преобразование в число
+                order_price_str = order_price_line[0].split(":")[1].strip().replace('₽', '').strip()
+                order_price = int(order_price_str)
+                delivery_cost = int(delivery_cost)
+                total_cost = order_price + delivery_cost
                 response_message = (
                     f"Ваш заказ был принят. Будет готов через {prep_time} мин.\n"
                     f"Стоимость доставки: {delivery_cost} ₽\n"
+                    f"Стоимость заказа вместе с доставкой: {total_cost} ₽ "
                 )
                 bot.send_message(telegram_id, response_message)  # Отправка пользователю
                 bot.send_message(message.chat.id, f"Пользователю было отправлено сообщение:\n{response_message}")
