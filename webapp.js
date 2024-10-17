@@ -171,6 +171,8 @@ function sendOrderToAdmin() {
     const paymentMethod = document.getElementById('cash').checked ? 'Наличными' : 'Переводом';
     const pickupType = document.getElementById('pickup').checked ? 'Самовывоз' : 'Доставка';
     const price = document.getElementById('final-total').textContent;
+    const comment = document.getElementById('order-comment').value;
+
 
     // Use the telegramUserId from the URL parameter
     const telegramId = window.telegramUserId;
@@ -191,7 +193,8 @@ function sendOrderToAdmin() {
         payment_method: paymentMethod,
         pickup_type: pickupType,
         price: parseInt(price),
-        telegram_id: telegramId // Use the correct telegramId from URL params
+        telegram_id: telegramId, // Use the correct telegramId from URL params
+        comment: comment.trim()
     };
 
     // Log the full orderData before sending
