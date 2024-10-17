@@ -168,7 +168,7 @@ function sendOrderToAdmin() {
     });
 
     const phoneNumber = document.getElementById('phone-number').value;
-    const paymentMethod = document.getElementById('cash').checked ? 'Наличными' : 'Переводом';
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
     const pickupType = document.getElementById('pickup').checked ? 'Самовывоз' : 'Доставка';
     const price = document.getElementById('final-total').textContent;
     const comment = document.getElementById('order-comment').value;
