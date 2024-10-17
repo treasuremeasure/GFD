@@ -48,6 +48,7 @@ def new_order():
         pickup_type = order_data.get('pickup_type', '')
         price = order_data.get('price', '')
         telegram_id = order_data.get('telegram_id', '')
+        comment = order_data.get('comment', '')
 
         # Replace with actual admin group or admin user chat ID
         admin_chat_id = '-1002473137359'
@@ -60,7 +61,8 @@ def new_order():
             f"Метод оплаты: {payment_method}\n"
             f"Тип получения: {pickup_type}\n"
             f"Цена: {price} ₽\n"
-            f"Telegram id: \"{telegram_id}\""
+            f"Telegram id: {telegram_id}\n"
+            f"Комментарий к заказу: {comment}"
         )
         bot.send_message(chat_id=admin_chat_id, text=order_message)
 
